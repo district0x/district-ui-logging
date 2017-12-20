@@ -6,7 +6,7 @@ Clojurescript [mount](https://github.com/tolitius/mount) module for a district U
 
 ## Installation
 Add `[district0x/district-ui-logging "1.0.0"]` into your project.clj  
-Include `[district.server.logging]` in your CLJS file, where you use `mount/start`
+Include `[district.ui.logging]` in your CLJS file, where you use `mount/start`
 
 **Warning:** district0x modules are still in early stages, therefore API can change in a future.
 
