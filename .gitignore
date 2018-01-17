@@ -10,7 +10,7 @@ pom.xml.asc
 .hgignore
 .hg/
 /.idea/
-/district-ui-logging.iml
 /node_modules/
 /figwheel_server.log
 /tests-output/
+/district-ui-logging.iml
