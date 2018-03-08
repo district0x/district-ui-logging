@@ -1,4 +1,4 @@
-(defproject district-ui-logging "1.0.0"
+(defproject district0x/district-ui-logging "1.0.0"
   :description "district UI module to set up devtools logging"
   :url "https://github.com/district0x/district-ui-logging"
   :license {:name "Eclipse Public License"
