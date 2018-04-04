@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/district0x/district-ui-logging.svg?branch=master)](https://travis-ci.org/district0x/district-ui-logging)
 
-Clojurescript [mount](https://github.com/tolitius/mount) module for a district UI, that takes care of setting up [timbre](https://github.com/ptaoussanis/timbre) + [cljs-devtools](https://github.com/binaryage/cljs-devtools) logging.
+Clojurescript [re-mount](https://github.com/district0x/d0x-INFRA/blob/master/re-mount.md) module, that takes care of setting up [timbre](https://github.com/ptaoussanis/timbre) + [cljs-devtools](https://github.com/binaryage/cljs-devtools) logging.
 
 ## Installation
 Add `[district0x/district-ui-logging "1.0.0"]` into your project.clj  
