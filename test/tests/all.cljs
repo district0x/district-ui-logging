@@ -1,9 +1,10 @@
 (ns tests.all
-  (:require
-    [cljs.test :refer [deftest is testing run-tests use-fixtures]]
-    [district.ui.logging]
-    [mount.core :as mount]
-    [taoensso.timbre :as timbre :refer-macros [info warn error]]))
+  (:require [cljs.test :refer [deftest is testing run-tests use-fixtures]]
+            [district.ui.logging.events :as logging]
+            [district.ui.logging]
+            [mount.core :as mount]
+            [re-frame.core :as re-frame]
+            [taoensso.timbre :as log]))
 
 (use-fixtures
   :each
@@ -13,9 +14,14 @@
 
 (deftest district-ui-logging-tests
   (-> (mount/with-args
-        {:logging {:level :warn}})
-    (mount/start))
-
-  (let [{:keys [:level :appenders]} timbre/*config*]
-    (is (= :warn level))
-    (is (true? (:enabled? (:console appenders))))))
+        {:logging {:level :info
+                   :console? true
+                   :sentry {:dsn "https://4bb89c9cdae14444819ff0ac3bcba253@sentry.io/1306960"
+                            :min-level :info}}})
+      (mount/start))
+  (let [{:keys [:level :appenders]} log/*config*]
+    (is (= :info level))
+    (is (true? (:enabled? (:console appenders))))
+    (is (nil? (log/error "foo" {:error "bad error" :foo "bar"} ::error)))
+    (is (nil? (re-frame/dispatch [::logging/error "foo" {:error "bad error" :foo "bar"} ::error])))
+    (is (nil? (re-frame/dispatch [::logging/info "success" {:foo "bar"} ::success])))))

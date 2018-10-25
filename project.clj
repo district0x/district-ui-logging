@@ -1,4 +1,4 @@
-(defproject district0x/district-ui-logging "1.0.1"
+(defproject district0x/district-ui-logging "1.0.2-SNAPSHOT"
   :description "district UI module to set up devtools logging"
   :url "https://github.com/district0x/district-ui-logging"
   :license {:name "Eclipse Public License"
@@ -7,7 +7,8 @@
                  [com.taoensso/timbre "4.10.0"]
                  [com.taoensso/encore "2.92.0"]
                  [mount "0.1.11"]
-                 [re-frame "0.10.5"]]
+                 [re-frame "0.10.5"]
+                 [cljsjs/raven "3.26.4-0"]]
 
   :doo {:paths {:karma "./node_modules/karma/bin/karma"}}
 
