@@ -15,9 +15,7 @@
 (deftest district-ui-logging-tests
   (-> (mount/with-args
         {:logging {:level :info
-                   :console? true
-                   :sentry {:dsn "https://4bb89c9cdae14444819ff0ac3bcba253@sentry.io/1306960"
-                            :min-level :info}}})
+                   :console? true}})
       (mount/start))
   (let [{:keys [:level :appenders]} log/*config*]
     (is (= :info level))

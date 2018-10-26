@@ -5,7 +5,7 @@
 Clojurescript [re-mount](https://github.com/district0x/d0x-INFRA/blob/master/re-mount.md) module, that takes care of setting up [timbre](https://github.com/ptaoussanis/timbre) + [cljs-devtools](https://github.com/binaryage/cljs-devtools) logging.
 
 ## Installation
-Add `[district0x/district-ui-logging "1.0.2-SNAPSHOT"]` into your project.clj  
+Add `[district0x/district-ui-logging "1.0.3-SNAPSHOT"]` into your project.clj  
 Include `[district.ui.logging]` in your CLJS file, where you use `mount/start`
 
 **Warning:** district0x modules are still in early stages, therefore API can change in a future.
@@ -30,9 +30,9 @@ You can pass following args to logging component:
 
 Log calls take the following arguments:
 
-* `message` (required) string with a human-readable message
-* `meta` (optional) a map with context meta-data
-* `ns` (optional) namespaced keyword for easy aggregating and searching.
+* `message` (required) string with a human-readable message.
+* `meta` (optional) a map with context meta-data.
+* `ns` (optional) namespaced keyword for easy aggregating and searching. If none provided the module will try to inferr the namespace. 
 
 Example:
 

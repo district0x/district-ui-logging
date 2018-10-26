@@ -10,6 +10,12 @@
  (fn [_ args]
    {:log/info args}))
 
+(re-frame/reg-event-fx
+ ::success
+ [interceptors]
+ (fn [_ args]
+   {:dispatch [::info args]}))
+
 (re-frame/reg-fx
  :log/info
  (fn [[message meta ns]]
