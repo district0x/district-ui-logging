@@ -56,14 +56,11 @@
    :min-level (or min-level :warn)
    :rate-limit nil
    :output-fn :inherit
-   :fn (fn [{:keys [:level :?ns-str :?file :?line :vargs] :as data}]
+   :fn (fn [{:keys [:level :?ns-str :?line :vargs] :as data}]
          (let [{:keys [:message :meta :log-ns]} (decode-vargs vargs)
-               {:keys [:error :user :ns :line :file]} meta
+               {:keys [:error :user :ns :line]} meta
                opts (clj->js {:level (timbre->sentry-levels level)
-                              :logger (str (or log-ns ns ?ns-str)
-                                           "["
-                                           (or file ?file) ":" (or line ?line)
-                                           "]")
+                              :logger (str (or log-ns ns ?ns-str) ":" (or line ?line))
                               :extra meta})]
            (when user
              (-> js/Raven
