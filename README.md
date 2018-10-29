@@ -70,11 +70,6 @@ Example:
 
 ## <a name="events"> district.ui.logging.events
 
-```clojure
-(ns my-district
-  (:require [district.ui.logging.events :as logging-events]))
-```
-
 #### <a name="info-event">`::info`
 This is an utility event which wraps the [`:log/info`](#info-fx) effect.
 
