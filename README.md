@@ -5,7 +5,7 @@
 Clojurescript [re-mount](https://github.com/district0x/d0x-INFRA/blob/master/re-mount.md) module, that takes care of setting up [timbre](https://github.com/ptaoussanis/timbre) + [cljs-devtools](https://github.com/binaryage/cljs-devtools) logging.
 
 ## Installation
-Add `[district0x/district-ui-logging "1.0.3-SNAPSHOT"]` into your project.clj  
+Add `[district0x/district-ui-logging "1.0.3"]` into your project.clj  
 Include `[district.ui.logging]` in your CLJS file, where you use `mount/start`
 
 **Warning:** district0x modules are still in early stages, therefore API can change in a future.
@@ -24,9 +24,9 @@ Include `[district.ui.logging]` in your CLJS file, where you use `mount/start`
 ## <a name="module"> district.ui.logging
 
 You can pass following args to logging component: 
-* `:level` Min. level that should be logged
-* `:console?` Pass true if you want to log into console as well
-* `:sentry` [sentry](https://sentry.io/) [configuration options](#sentry)
+* `:level` Min. level that should be logged.
+* `:console?` Pass true if you want to log into console as well.
+* `:sentry` [sentry](https://sentry.io/) [configuration options](#sentry).
 
 Log calls take the following arguments:
 
