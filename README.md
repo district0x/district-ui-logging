@@ -5,8 +5,9 @@
 Clojurescript [re-mount](https://github.com/district0x/d0x-INFRA/blob/master/re-mount.md) module, that takes care of setting up [timbre](https://github.com/ptaoussanis/timbre) + [cljs-devtools](https://github.com/binaryage/cljs-devtools) logging.
 
 ## Installation
-Add `[district0x/district-ui-logging "1.0.3"]` into your project.clj  
-Include `[district.ui.logging]` in your CLJS file, where you use `mount/start`
+district-ui-logging is available as a Maven artifact from Clojars. The latest released version is:
+[![Clojars Project](https://img.shields.io/clojars/v/district0x/district-ui-logging.svg)](https://clojars.org/district0x/district-ui-logging) <br>
+To use the library include `[district.ui.logging]` in your CLJS file, where you use `mount/start`
 
 **Warning:** district0x modules are still in early stages, therefore API can change in a future.
 

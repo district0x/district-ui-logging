@@ -13,16 +13,16 @@
    :error js/console.error,
    :warn js/console.warn,
    :info js/console.info,
-   :debug js/console.debug,
+   :debug js/console.info,
    :trace js/console.trace})
 
 (def ^:private timbre->sentry-levels
-  {:trace  "debug"
-   :debug  "debug"
-   :info   "info"
-   :warn   "warning"
-   :error  "error"
-   :fatal  "fatal"
+  {:fatal "fatal"
+   :error "error"
+   :warn "warning"
+   :info "info"
+   :debug "debug"
+   :trace "debug"
    :report "info"})
 
 (defn- decode-vargs [vargs]
