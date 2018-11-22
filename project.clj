@@ -1,4 +1,4 @@
-(defproject district0x/district-ui-logging "1.0.3"
+(defproject district0x/district-ui-logging "1.0.4"
   :description "district UI module to set up devtools logging"
   :url "https://github.com/district0x/district-ui-logging"
   :license {:name "Eclipse Public License"
@@ -23,8 +23,28 @@
                                   [org.clojure/core.async "0.3.465"]
                                   [binaryage/devtools "0.9.7"]]
                    :plugins [[lein-cljsbuild "1.1.7"]
+                             [lein-shell "0.5.0"]
                              [lein-doo "0.1.8"]
                              [lein-npm "0.6.2"]]}}
+
+  :deploy-repositories [["snapshots" {:url "https://clojars.org/repo"
+                                      :username :env/clojars_username
+                                      :password :env/clojars_password
+                                      :sign-releases false}]
+                        ["releases"  {:url "https://clojars.org/repo"
+                                      :username :env/clojars_username
+                                      :password :env/clojars_password
+                                      :sign-releases false}]]
+
+  :release-tasks [["vcs" "assert-committed"]
+                  ["change" "version" "leiningen.release/bump-version"]
+                  ["change" "version" "leiningen.release/bump-version" "release"]
+                  ["shell" "git" "commit" "-am" "Version ${:version} [ci skip]"]
+                  ["vcs" "tag" "v" "--no-sign"] ; disable signing and add "v" prefix
+                  ["deploy"]
+                  ["change" "version" "leiningen.release/bump-version" "qualifier"]
+                  ["shell" "git" "commit" "-am" "Version ${:version} [ci skip]"]
+                  ["vcs" "push"]]
 
   :cljsbuild {:builds [{:id "tests"
                         :source-paths ["src" "test"]
