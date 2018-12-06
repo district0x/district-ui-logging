@@ -42,9 +42,9 @@
                   ["shell" "git" "commit" "-am" "Version ${:version} [ci skip]"]
                   ["vcs" "tag" "v" "--no-sign"] ; disable signing and add "v" prefix
                   ["deploy"]
-                  ["change" "version" "leiningen.release/bump-version" "qualifier"]
-                  ["shell" "git" "commit" "-am" "Version ${:version} [ci skip]"]
-                  ["vcs" "push"]]
+                  #_["change" "version" "leiningen.release/bump-version" "qualifier"]
+                  #_["shell" "git" "commit" "-am" "Version ${:version} [ci skip]"]
+                  #_["vcs" "push"]]
 
   :cljsbuild {:builds [{:id "tests"
                         :source-paths ["src" "test"]
