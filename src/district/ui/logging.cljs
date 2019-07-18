@@ -1,9 +1,9 @@
 (ns district.ui.logging
-  (:require
-    [devtools.preload]
-    [mount.core :as mount :refer [defstate]]
-    [taoensso.timbre :as timbre]
-    [cljsjs.raven]))
+  (:require [cljsjs.sentry-browser]
+            [devtools.preload]
+            [district.shared.error-handling :as error-handling]
+            [mount.core :as mount :refer [defstate]]
+            [taoensso.timbre :as timbre]))
 
 (declare start)
 (defstate logging :start (start (:logging (mount/args))))
@@ -52,32 +52,34 @@
 
 (defn sentry-appender [{:keys [:min-level]}]
   {:enabled? true
-   :async? false
+   :async? true
    :min-level (or min-level :warn)
    :rate-limit nil
    :output-fn :inherit
-   :fn (fn [{:keys [:level :?ns-str :?line :vargs] :as data}]
-         (let [{:keys [:message :meta :log-ns]} (decode-vargs vargs)
-               {:keys [:error :user :ns :line]} meta
-               opts (clj->js {:level (timbre->sentry-levels level)
-                              :logger (str (or log-ns ns ?ns-str) ":" (or line ?line))
-                              :extra meta})]
-           (when user
-             (-> js/Raven
-                 (#(js-invoke % "setUserContext" (clj->js user)))))
-           (if error
-             (-> js/Raven
-                 (#(js-invoke % "captureException" error opts)))
-             (-> js/Raven
-                 (#(js-invoke % "captureMessage" message opts))))))})
+   :fn (fn [{:keys [:level :?ns-str :?line :message :meta :log-ns] :as data}]
+         (let [{:keys [:error :user :ns :line]} meta]
+           (when meta
+             (js-invoke js/Sentry "configureScope" (fn [scope]
+                                                     (doseq [[k v] meta]
+                                                       (-> scope (.setExtra (name k) (clj->js v))))
+                                                     (when user
+                                                       (-> scope (.setUser (clj->js user)))))))
+           (if (error-handling/error? error)
+             (js-invoke js/Sentry "captureException" error)
+             (js-invoke js/Sentry "captureEvent" (clj->js {:level (timbre->sentry-levels level)
+                                                           :message (or message error)
+                                                           :logger (str (or log-ns ns ?ns-str) ":" (or line ?line))})))))})
+
+(defn wrap-decode-vargs [data]
+  "Middleware for vargs"
+  (merge data (decode-vargs (:vargs data))))
 
 (defn start [{:keys [:level :console? :sentry]}]
   (when sentry
-    (-> js/Raven
-        (#(js-invoke % "config" (:dsn sentry) (clj->js sentry)))
-        (#(js-invoke % "install"))))
-  (timbre/merge-config! (merge {:level (keyword level)}
-                               {:appenders {:console (when console?
-                                                       devtools-appender)
-                                            :sentry (when sentry
-                                                      (sentry-appender sentry))}})))
+    (js-invoke js/Sentry "init" (clj->js sentry)))
+  (timbre/merge-config! {:level (keyword level)
+                         :middleware [wrap-decode-vargs]
+                         :appenders {:console (when console?
+                                                devtools-appender)
+                                     :sentry (when sentry
+                                               (sentry-appender sentry))}}))
