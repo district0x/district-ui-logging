@@ -1,9 +1,9 @@
 (ns district.ui.logging
   (:require [cljsjs.sentry-browser]
             [devtools.preload]
-            [district.shared.error-handling :as error-handling]
             [mount.core :as mount :refer [defstate]]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as timbre])
+  (:require-macros [district.shared.error-handling :refer [error?]]))
 
 (declare start)
 (defstate logging :start (start (:logging (mount/args))))
@@ -64,7 +64,7 @@
                                                        (-> scope (.setExtra (name k) (clj->js v))))
                                                      (when user
                                                        (-> scope (.setUser (clj->js user)))))))
-           (if (error-handling/error? error)
+           (if (error? error)
              (js-invoke js/Sentry "captureException" error)
              (js-invoke js/Sentry "captureEvent" (clj->js {:level (timbre->sentry-levels level)
                                                            :message (or message error)
