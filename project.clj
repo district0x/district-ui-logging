@@ -1,14 +1,15 @@
-(defproject district0x/district-ui-logging "1.0.4-SNAPSHOT"
+(defproject district0x/district-ui-logging "1.1.0-SNAPSHOT"
   :description "district UI module to set up devtools logging"
   :url "https://github.com/district0x/district-ui-logging"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojurescript "1.9.946"]
-                 [com.taoensso/timbre "4.10.0"]
+  :dependencies [[cljsjs/sentry-browser "5.4.3-0"]
                  [com.taoensso/encore "2.92.0"]
+                 [com.taoensso/timbre "4.10.0"]
+                 [district0x/error-handling "1.0.4"]
                  [mount "0.1.11"]
-                 [re-frame "0.10.5"]
-                 [cljsjs/raven "3.26.4-0"]]
+                 [org.clojure/clojurescript "1.9.946"]
+                 [re-frame "0.10.5"]]
 
   :doo {:paths {:karma "./node_modules/karma/bin/karma"}}
 
@@ -23,7 +24,6 @@
                                   [org.clojure/core.async "0.3.465"]
                                   [binaryage/devtools "0.9.7"]]
                    :plugins [[lein-cljsbuild "1.1.7"]
-                             #_[lein-shell "0.5.0"]
                              [lein-doo "0.1.8"]
                              [lein-npm "0.6.2"]]}}
 
@@ -37,14 +37,8 @@
                                       :sign-releases false}]]
 
   :release-tasks [["vcs" "assert-committed"]
-                  #_["change" "version" "leiningen.release/bump-version"]
                   ["change" "version" "leiningen.release/bump-version" "release"]
-                  ["vcs" "commit" "Version ${:version} %s [ci skip]"]
-                  ["vcs" "tag" "v" "--no-sign"] ; disable signing and add "v" prefix
-                  ["deploy"]
-                  #_["change" "version" "leiningen.release/bump-version" "qualifier"]
-                  #_["vcs" "commit" "Version ${:version} [ci skip]"]
-                  #_["vcs" "push"]]
+                  ["deploy"]]
 
   :cljsbuild {:builds [{:id "tests"
                         :source-paths ["src" "test"]
